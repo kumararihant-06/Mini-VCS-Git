@@ -2,8 +2,8 @@
 # Mini-VCS  Makefile
 # ─────────────────────────────────────────────────────────────────────────────
 CXX      := g++
-CXXFLAGS := -std=c++17 -O2 -Wall -Wextra -Iinclude
-LDFLAGS  := -lz -lcrypto
+CXXFLAGS := -std=c++17 -O2 -Wall -Wextra -Iincludes -I/opt/homebrew/opt/openssl@3/include
+LDFLAGS  := -L/opt/homebrew/opt/openssl@3/lib -lz -lcrypto -lssl
 
 TARGET   := mini_vcs
 
@@ -20,6 +20,7 @@ SRCS := src/utils.cpp       \
         src/cmd_branch.cpp  \
         src/cmd_log.cpp     \
         src/cmd_status.cpp  \
+        src/cmd_lifetime.cpp \
         main.cpp
 
 OBJS := $(SRCS:.cpp=.o)

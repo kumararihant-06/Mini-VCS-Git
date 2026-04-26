@@ -70,9 +70,15 @@ void cmd_status(const Repository& repo) {
 
     // ── Unstaged modifications ────────────────────────────────────────────────
     std::vector<std::string> unstaged;
-    for (const auto& [fp, wh] : working)
-        if (idx.count(fp) && idx.at(fp) != wh)
-            unstaged.push_back(fp);
+    for (const auto& [fp, wh] : working) {
+    if (idx.count(fp) && idx.at(fp) != wh) {
+        // file is staged but disk version is different from staged version
+        unstaged.push_back(fp);
+    } else if (!idx.count(fp) && committed.count(fp) && committed.at(fp) != wh) {
+        // file is not staged but exists in last commit with different hash
+        unstaged.push_back(fp);
+    }
+    }   
     if (!unstaged.empty()) {
         std::cout << "\nChanges not staged for commit:\n";
         for (const auto& f : unstaged) std::cout << "   modified: " << f << "\n";

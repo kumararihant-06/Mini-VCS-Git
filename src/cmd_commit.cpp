@@ -121,7 +121,8 @@ static CommitResult finalise_commit(
     std::string hash = repo.store_object(obj);
 
     repo.set_branch_commit(repo.current_branch(), hash);
-    repo.save_index({});
+    auto carried_index = repo.index_from_tree(tree_hash);
+    repo.save_index(carried_index);
 
     CommitResult r;
     r.commit_hash      = hash;

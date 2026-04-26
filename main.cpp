@@ -40,6 +40,7 @@
 #include "cmd_status.h"
 #include "commit_strategy.h"
 #include "repository.h"
+#include "cmd_lifetime.h"
 
 #include <filesystem>
 #include <iostream>
@@ -68,6 +69,7 @@ Commands:
   log                      Show commit history (last 10)
   log -n <N>               Show last N commits
   status                   Show working-tree and staging-area status
+  lifetime <file>          Show full size history of a file across all commits
 )";
 }
 
@@ -170,7 +172,16 @@ int main(int argc, char* argv[]) {
             cmd_status(repo);
 
         // ── unknown ───────────────────────────────────────────────────────────
-        } else {
+        } else if (cmd == "lifetime") {
+            if (!require_repo(repo)) return 1;
+            if (argc < 3) {
+                std::cerr << "Usage: mini_vcs lifetime <filename>\n";
+                return 1;
+            }
+            cmd_lifetime(repo, argv[2]);
+
+        // ── unknown ───────────────────────────────────────────────────────────
+        }else {
             std::cerr << "Unknown command: " << cmd << "\n";
             print_usage();
             return 1;
