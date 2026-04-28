@@ -19,11 +19,11 @@ void cmd_add_file(Repository& repo, const std::string& rel) {
     if (!fs::exists(full))
         throw std::runtime_error("Path not found: " + rel);
 
-    Blob blob(read_file(full));
-    std::string h = repo.store_object(blob);
+    Blob        blob(read_file(full));
+    std::string h = blob.hash();
 
-    auto idx  = repo.load_index();
-    idx[rel]  = h;
+    auto idx = repo.load_index();
+    idx[rel] = h;
     repo.save_index(idx);
 
     std::cout << "Added " << rel << "\n";
@@ -50,7 +50,7 @@ void cmd_add_directory(Repository& repo, const std::string& rel) {
 
         std::string file_rel = fs::relative(p, repo.root).generic_string();
         Blob blob(read_file(p));
-        idx[file_rel] = repo.store_object(blob);
+        idx[file_rel] = blob.hash();
         ++count;
     }
 

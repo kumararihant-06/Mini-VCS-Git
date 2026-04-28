@@ -1,0 +1,110 @@
+
+======================================================================
+Mini-VCS Benchmark
+======================================================================
+Binary : /Users/arihantkumar/Desktop/Mini_VCS/mini_vcs  (224K)
+Date   : Mon Apr 27 10:03:09 IST 2026
+Host   : ARIHANTs-MacBook-Air.local / arm64
+
+======================================================================
+STRATEGY 1 — FULL_COPY
+======================================================================
+>>> Primary benchmark: 50 files x 4 KB, 10 commits, 20% change
+    5 timing passes for stable median...
+  Storage @ C1  : 20 KB
+  Storage @ C5  : 208 KB
+  Storage @ C10 : 436 KB
+  Median commit time (C1)  : 19 ms
+  Median commit time (C10) : 20 ms
+  Median checkout time     : 19 ms
+
+>>> Zero-change: 50 files, 10 commits, 0% change (best case)
+  Storage @ C10 : 128 KB
+
+>>> All-change: 50 files, 10 commits, 100% change (worst case)
+  Storage @ C10 : 1080 KB
+
+>>> Medium: 200 files x 8 KB, 15 commits, 10% change
+  Storage @ C15 : 1568 KB
+
+>>> Tiny: 10 files x 2 KB, 5 commits, 40% change
+  Storage @ C5  : 176 KB
+
+======================================================================
+STRATEGY 2 — DELTA_METADATA
+======================================================================
+>>> Primary benchmark: 50 files x 4 KB, 10 commits, 20% change
+    5 timing passes for stable median...
+  Storage @ C1  : 12 KB
+  Storage @ C5  : 40 KB
+  Storage @ C10 : 52 KB
+  Median commit time (C1)  : 15 ms
+  Median commit time (C10) : 22 ms
+  Median checkout time     : 27 ms
+
+>>> Zero-change: 50 files, 10 commits, 0% change (best case)
+  Storage @ C10 : 24 KB
+
+>>> All-change: 50 files, 10 commits, 100% change (worst case)
+  Storage @ C10 : 412 KB
+
+>>> Medium: 200 files x 8 KB, 15 commits, 10% change
+  Storage @ C15 : 456 KB
+
+>>> Tiny: 10 files x 2 KB, 5 commits, 40% change
+  Storage @ C5  : 24 KB
+
+======================================================================
+STRATEGY 3 — DELTA_HASH
+======================================================================
+>>> Primary benchmark: 50 files x 4 KB, 10 commits, 20% change
+    5 timing passes for stable median...
+  Storage @ C1  : 12 KB
+  Storage @ C5  : 52 KB
+  Storage @ C10 : 80 KB
+  Median commit time (C1)  : 15 ms
+  Median commit time (C10) : 22 ms
+  Median checkout time     : 27 ms
+
+>>> Zero-change: 50 files, 10 commits, 0% change (best case)
+  Storage @ C10 : 24 KB
+
+>>> All-change: 50 files, 10 commits, 100% change (worst case)
+  Storage @ C10 : 464 KB
+
+>>> Medium: 200 files x 8 KB, 15 commits, 10% change
+  Storage @ C15 : 376 KB
+
+>>> Tiny: 10 files x 2 KB, 5 commits, 40% change
+  Storage @ C5  : 24 KB
+
+======================================================================
+FINAL SUMMARY — paste these numbers into your LaTeX report
+======================================================================
+
+-------- Table: tab:storage (50-file, 10-commit, 20% change) ---------
+
+Strategy             @C1(KB)   @C5(KB)  @C10(KB)  Reduction
+----------------------------------------------------------------------
+FULL_COPY                 20       208       436  --- (baseline)
+DELTA_METADATA            12        40        52  ~88%
+DELTA_HASH                12        52        80  ~81%
+
+-------- Table: tab:perf (performance benchmarks) --------------------
+
+Metric                                      FULL_COPY         DELTA_META        DELTA_HASH      
+----------------------------------------------------------------------
+Avg commit time (50 files, 20% change)      20 ms             22 ms             22 ms           
+Relative to FULL_COPY                       1.0x baseline     1.10x (10% slower)  1.10x (10% slower)
+Storage @ C10 (50-file, 20% change)         436 KB            52 KB             80 KB           
+Storage @ C10 (zero-change best case)       128 KB            24 KB             24 KB           
+Storage @ C10 (all-change worst case)       1080 KB           412 KB            464 KB          
+Storage @ C15 (200-file medium corpus)      1568 KB           456 KB            376 KB          
+Checkout time (50 files)                    19 ms             27 ms             27 ms           
+Binary size                                 224K              same              same            
+
+Raw CSV: /Users/arihantkumar/Desktop/Mini_VCS/results/raw_values.csv
+
+======================================================================
+Done. Full results saved to: /Users/arihantkumar/Desktop/Mini_VCS/results/benchmark_results.txt
+======================================================================
